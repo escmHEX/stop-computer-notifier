@@ -9,6 +9,7 @@ Ejecuta el instalador de la versión entregada dentro de `release`. La instalaci
 - Valores iniciales: 35 minutos de trabajo y 3 de descanso. Cámbialos en Configuración, entre 1 y 1440 minutos enteros.
 - El descanso comienza al pulsar Iniciar descanso. Descartar el aviso no lo inicia. Un aviso pendiente se repite cada 5 minutos; también puedes posponerlo 5 minutos.
 - Cerrar la ventana libera su proceso visual y mantiene los recordatorios en la bandeja. Para terminar la aplicación, usa Salir en el menú de la bandeja.
+- Reiniciar contador vuelve a la duración configurada de la sesión o del descanso actual, conservando la pausa manual. En aviso pendiente o pospuesto, inicia una sesión completa. Disponible junto a Pausar y en la bandeja.
 - Pausar conserva el tiempo restante. Un descanso ya iniciado sigue corriendo; la pausa afecta a los siguientes recordatorios.
 - Bloquear o suspender reinicia el trabajo al volver. Un descanso ya iniciado sigue transcurriendo durante la ausencia y no produce avisos atrasados.
 - Cambiar duraciones afecta a la siguiente fase que comience. La cuenta actual mantiene su duración. Los resúmenes muestran los ajustes configurados.
@@ -51,9 +52,10 @@ Los avisos usan la API nativa de [Electron Notification](https://www.electronjs.
 
 Entorno: Windows 11 Home x64, compilación 26100.
 
-- 16 pruebas automatizadas de dominio, avisos y preferencias: vencimiento, repetición, aceptación, posposición, acciones obsoletas, pausa, cambios de duración, bloqueo/suspensión superpuestos, recuperación de archivos inválidos, los cinco tonos y migración de preferencias.
+- 26 pruebas automatizadas de dominio, avisos y preferencias: vencimiento, repetición, aceptación, posposición, acciones obsoletas, pausa, cambios de duración, bloqueo/suspensión superpuestos, recuperación de archivos inválidos, los cinco tonos y migración de preferencias.
 - Prueba de audio: reproducción completa de los cinco WAV, ausencia de avisos al previsualizar, validación del identificador, liberación del reproductor y continuidad al cerrar la interfaz. Los cinco tonos también se comprobaron en la instalación 0.1.1, con reproducción finalizada correctamente.
 - Prueba de avisos de escritorio: respuesta asíncrona, rechazo y tiempo de espera, previsualización del tono sin guardar, persistencia de la selección y distribución horizontal del resumen.
+- Prueba de reinicio: sesión y descanso, pausa conservada, ajustes vigentes, acciones obsoletas, bloqueo/suspensión, teclado, bandeja y ventanas estrechas.
 - Prueba de escritorio: dos idiomas y temas, validación, aislamiento de Node, eventos de energía controlados, cierre/destrucción de ventana, descanso de un minuto en segundo plano y reapertura con instancia única.
 - Revisión visual y de teclado al 100 %, 150 % y 200 %, incluidos ajustes a 47/6 minutos y ventana estrecha, sin desbordamiento horizontal. Paleta con contraste de texto secundario de al menos 4,6:1 y botones principales de al menos 6,6:1.
 - Instalación y desinstalación reales. Inicio con Windows activado/desactivado y verificado; arranque con `--background` sin ventanas. Preferencias recuperadas en un proceso nuevo.

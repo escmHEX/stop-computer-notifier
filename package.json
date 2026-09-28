@@ -1,7 +1,7 @@
 {
   "name": "stop-computer-notifier",
   "productName": "Stop Computer Notifier",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Recordatorios de descanso para Windows",
   "author": "Stop Computer Notifier",
   "private": true,

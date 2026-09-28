@@ -139,3 +139,50 @@ test("invalid settings rejected at process boundary", () => {
   assert.throws(() => parseSettings({ ...DEFAULT_SETTINGS, theme: "invalid" }));
   assert.deepEqual(parseSettings(DEFAULT_SETTINGS), DEFAULT_SETTINGS);
 });
+for (const phase of ["working", "pending", "snoozed", "resting"] as const)
+  for (const paused of [false, true])
+    test(`restart ${phase} uses configured duration and preserves pause=${paused}`, () => {
+      const { clock, timer, act, notices } = setup();
+      if (phase === "pending" || phase === "snoozed")
+        clock.advance(35 * MINUTE);
+      if (phase === "snoozed") act("snooze");
+      if (phase === "resting") act("startBreak");
+      clock.advance(MINUTE);
+      if (paused) act("pause");
+      timer.configure({ workMinutes: 47, breakMinutes: 6 });
+      const oldToken = timer.snapshot().token;
+      const before = notices.length;
+      assert.equal(act("restart"), true);
+      const duration = (phase === "resting" ? 6 : 47) * MINUTE;
+      const active = !paused || phase === "resting";
+      assert.equal(
+        timer.snapshot().phase,
+        phase === "resting" ? "resting" : "working",
+      );
+      assert.equal(timer.snapshot().remainingMs, duration);
+      assert.equal(timer.snapshot().durationMs, duration);
+      assert.equal(timer.snapshot().paused, paused);
+      assert.equal(timer.act("restart", oldToken), false);
+      assert.equal(timer.act("startBreak", oldToken), false);
+      assert.equal(clock.jobs.size, active ? 1 : 0);
+      assert.equal(notices.length, before);
+      clock.advance(duration - 1);
+      assert.equal(notices.length, before);
+      clock.advance(1);
+      assert.equal(notices.length, before + (active ? 1 : 0));
+      if (!active) {
+        assert.equal(timer.snapshot().remainingMs, duration);
+        act("resume");
+        assert.equal(timer.snapshot().remainingMs, duration);
+        assert.equal(clock.jobs.size, 1);
+      }
+    });
+for (const reason of ["lock", "suspend"] as const)
+  test(`restart is rejected during ${reason}`, () => {
+    const { timer, act } = setup();
+    act("startBreak");
+    timer.setBlocked(reason, true);
+    const before = timer.snapshot();
+    assert.equal(act("restart"), false);
+    assert.deepEqual(timer.snapshot(), before);
+  });

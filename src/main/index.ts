@@ -175,6 +175,11 @@ async function start(): Promise<void> {
             act(state.paused ? "resume" : "pause", timer.snapshot().token),
         },
         {
+          label: t.restart,
+          enabled: !state.blocked,
+          click: () => act("restart", timer.snapshot().token),
+        },
+        {
           label: t.begin,
           enabled: state.phase !== "resting",
           click: () => act("startBreak", timer.snapshot().token),
@@ -344,7 +349,9 @@ async function start(): Promise<void> {
   });
   handle(IPC.action, (action, token) => {
     if (
-      !["startBreak", "snooze", "pause", "resume"].includes(String(action)) ||
+      !["startBreak", "snooze", "pause", "resume", "restart"].includes(
+        String(action),
+      ) ||
       typeof token !== "string" ||
       token.length > 100
     )

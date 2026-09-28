@@ -18,6 +18,7 @@ const api = window.notifier;
 const icons = {
   pause: "M8 5v14M16 5v14",
   play: "M8 5l11 7-11 7Z",
+  restart: "M3 10a9 9 0 1 1 2.6 8.4M3 3v7h7",
   cup: "M5 8h12v7a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4ZM17 9h2a3 3 0 0 1 0 6h-2M3 22h17M8 2v3M13 2v3",
   clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M12 6v6l4 2",
   settings:
@@ -217,6 +218,15 @@ function App() {
             >
               <Icon name={timer.paused ? "play" : "pause"} />
               {timer.paused ? t.resume : t.pause}
+            </button>
+            <button
+              className="secondary restart-button"
+              aria-label={t.restart}
+              title={t.restart}
+              disabled={timer.blocked}
+              onClick={() => act("restart")}
+            >
+              <Icon name="restart" />
             </button>
             {pending && !timer.paused && (
               <button className="text-button" onClick={() => act("snooze")}>

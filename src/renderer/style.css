@@ -468,7 +468,28 @@ footer {
   margin-left: auto;
 }
 
-.priority-help { margin: 8px 0; text-align: center; }
-.priority-help summary { cursor: pointer; }
-.priority-help summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-.priority-help p { text-align: left; line-height: 1.6; }
+.priority-help {
+  margin: 8px 0;
+  text-align: center;
+}
+.priority-help summary {
+  cursor: pointer;
+}
+.priority-help summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.priority-help p {
+  text-align: left;
+  line-height: 1.6;
+}
+
+.actions .restart-button {
+  padding: 12px;
+  min-width: 42px;
+}
+@media (max-width: 400px) {
+  .actions .primary {
+    flex-basis: 100%;
+  }
+}

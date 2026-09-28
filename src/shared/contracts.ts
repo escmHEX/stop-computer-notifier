@@ -16,7 +16,12 @@ export interface Settings {
   theme: Theme;
 }
 export type Phase = "working" | "pending" | "snoozed" | "resting";
-export type TimerAction = "startBreak" | "snooze" | "pause" | "resume";
+export type TimerAction =
+  | "startBreak"
+  | "snooze"
+  | "pause"
+  | "resume"
+  | "restart";
 export interface TimerSnapshot {
   phase: Phase;
   paused: boolean;

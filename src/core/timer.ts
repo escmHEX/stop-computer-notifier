@@ -98,6 +98,15 @@ export class BreakTimer {
     // Each transition invalidates old toasts and repeated clicks, including across app launches.
     if (token !== this.snapshot().token || this.blocks.size) return false;
     switch (action) {
+      case "restart":
+        // Restart is a new cycle, using current preferences while preserving manual pause.
+        this.enter(
+          this.phase === "resting" ? "resting" : "working",
+          (this.phase === "resting"
+            ? this.settings.breakMinutes
+            : this.settings.workMinutes) * MINUTE,
+        );
+        break;
       case "startBreak":
         if (this.phase === "resting") return false;
         this.enter("resting", this.settings.breakMinutes * MINUTE);
