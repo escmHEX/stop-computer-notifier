@@ -1,0 +1,74 @@
+{
+  "name": "stop-computer-notifier",
+  "productName": "Stop Computer Notifier",
+  "version": "0.1.1",
+  "description": "Recordatorios de descanso para Windows",
+  "author": "Stop Computer Notifier",
+  "private": true,
+  "type": "module",
+  "main": "dist/main.cjs",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "build": "npm run typecheck && node scripts/build.mjs",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win nsis --x64",
+    "test:desktop": "node --test --test-concurrency=1 tests/*.e2e.mjs"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.1",
+    "playwright": "1.58.2"
+  },
+  "build": {
+    "appId": "io.stopcomputernotifier.app",
+    "productName": "Stop Computer Notifier",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "dist/**/*",
+      "assets/icon.png",
+      "assets/icon.ico",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "signAndEditExecutable": true
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": false,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": false,
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "Stop-Computer-Notifier-${version}-Setup-x64.${ext}"
+    }
+  }
+}
